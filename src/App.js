@@ -1,22 +1,22 @@
-import logo from './logo.svg';
+import { ThreeDots } from 'react-loader-spinner';
+
 import './App.css';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>hello miriam</h1>
+       <ThreeDots 
+height="80" 
+width="80" 
+radius="9"
+color="red" 
+ariaLabel="three-dots-loading"
+wrapperStyle={{}}
+wrapperClassName=""
+visible={true}
+ />
       </header>
     </div>
   );
