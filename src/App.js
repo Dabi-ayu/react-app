@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>hello miriam</h1>
+        <h1>hello learning react with matt is fun!</h1>
        <ThreeDots 
 height="80" 
 width="80" 
