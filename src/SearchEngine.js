@@ -1,42 +1,45 @@
 import React, { useState } from "react";
 import axios from 'axios';
 
-export default function SearchEngine() {
-    let [city, setCity] = useState("New york");
-    let [data, setData] = useState(" ");
-    // let [load, setLoad] = useState(false);
+import WeatherData from "./WeatherData";
 
- function fetchData(response) {
-     console.log(response.data);
-    //  setLoad(true);
+export default function SearchEngine(props) {
+    
+    const [data, setData] = useState({ load: false });
+    const [city, setCity] = useState(props.city);
+    
+
+ function handleResponse(response) {
+
      setData({
+         load: true,
          temperature: response.data.main.temp,
-         name: response.data.name,
+         date: new Date(response.data.dt * 1000),
          description: response.data.weather[0].description,
          humidity: response.data.main.humidity,
          wind: response.data.wind.speed,
+         city: response.data.name,
          icon: `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
      });
-     
-
-        
+       
     }
-
-    function handleSubmit(event) {
-        event.preventDefault();
-
-
-    let key = "2a2eaa51d996796495bf456e5b58adf4";
+    function fetchData() {
+   const key = "1d038ee28ef2727a9f0310860ac10ae9";
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=metric`;
 
-    axios.get(url).then(fetchData);
+    axios.get(url).then(handleResponse);
     }
-    function updateCity(event) {
+    function handleSubmit(event) {
+        event.preventDefault();
+        fetchData();
+
+    }
+    function changeCity(event) {
         setCity(event.target.value);
     }
+
     
-
-
+    if (data.load) {
         return (
             <div className="Overview">
                 <form id="search-form" className="mb-3" onSubmit={handleSubmit}>
@@ -48,7 +51,8 @@ export default function SearchEngine() {
                                 className="form-control"
                                 id="city-input"
                                 autoComplete="off"
-                                onChange={updateCity}
+                                onChange={changeCity}
+                                
                             />
                         </div>
                         <div className="col-3">
@@ -56,37 +60,21 @@ export default function SearchEngine() {
                         </div>
                     </div>
                 </form>
-                <div className="Data">
-                    <ul>
-                        <li className="fs-1 text-tertiary"> <h1>{data.name}</h1></li>
-                        <li id="date">Friday 07:25</li>
-                        <li id="description">{data.description}</li>
-                    </ul>
-                    <div className="row">
-                        <div className="col-6">
-                            <div className="weatherIcon">
-                                <img
-                                    src={data.icon}
-                                    alt={data.description}
-              
-                                />
-                                <strong className="Temperature">
-                                    {Math.round(data.temperature)}
-                                    <span className="degreeValue text-secondary">°C</span>
-                                </strong>
-                            </div>
-           
-                        </div>
-                        <div className="col-6">
-                            <ul>
-                                <li id="humidity">humidity: {data.humidity}%</li>
-                                <li id="wind">wind: {data.wind}km/h</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <WeatherData info={data} />
+               </div>
         );
+    }
+    else {
+        fetchData();
     
-   
-}
+        return (
+            "loaded.."
+        );
+    }
+    }
+         
+    
+     
+  
+    
+    

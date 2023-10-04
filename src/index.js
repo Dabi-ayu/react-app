@@ -12,7 +12,7 @@ root.render(
   <React.StrictMode>
    <div className="App">
       <div className="outerWrapper">
-        <SearchEngine />
+        <SearchEngine city = "New York"/>
       </div>
       <footer className="text-center">
       <a href="https://github.com/Dabi-ayu/react-app">open source code</a> <span>by Dabi</span>
